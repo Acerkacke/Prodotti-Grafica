@@ -3,7 +3,7 @@
 	<name>SupermercatoProdotti</name>
 	<comment></comment>
 	<projects>
-		<project>ProdottiNegozio</project>
+		<project>SupermercatoProdotti</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
