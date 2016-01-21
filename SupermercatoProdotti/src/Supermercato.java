@@ -16,6 +16,17 @@ import org.eclipse.swt.events.MouseTrackAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.events.ShellAdapter;
+import org.eclipse.swt.events.ShellEvent;
+import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.MouseMoveListener;
+import org.eclipse.swt.events.FocusAdapter;
+import org.eclipse.swt.events.FocusEvent;
+
 
 public class Supermercato {
 
@@ -59,17 +70,6 @@ public class Supermercato {
 				display.sleep();
 			}
 		}
-	}
-	
-	private void mostraPrezzo(Prodotto prodotto){
-		text_prezzo.setText(String.valueOf(prodotto.getPrezzo()));
-		text_codice.setText(String.valueOf(prodotto.getCod()));
-	}
-	
-	private void aggiungiProdotto(Prodotto prodotto){
-		carrello.aggiungiProdotto(prodotto);
-		aggiornaLista();
-		text_totale.setText(String.valueOf(carrello.calcolaTOT()));
 	}
 	
 	private void aggiornaLista(){
@@ -117,102 +117,6 @@ public class Supermercato {
 		scrolledComposite.setContent(list);
 		scrolledComposite.setMinSize(list.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 		
-		Button btnMela = new Button(shell, SWT.NONE);
-		btnMela.addMouseTrackListener(new MouseTrackAdapter() {
-			@Override
-			public void mouseEnter(MouseEvent e) {
-				mostraPrezzo(inventario[0]);
-			}
-		});
-		btnMela.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				aggiungiProdotto(inventario[0]);
-			}
-		});
-		btnMela.setBounds(201, 82, 75, 25);
-		btnMela.setText("Mela");
-		
-		Button btnPera = new Button(shell, SWT.NONE);
-		btnPera.addMouseTrackListener(new MouseTrackAdapter() {
-			@Override
-			public void mouseEnter(MouseEvent e) {
-				mostraPrezzo(inventario[1]);
-			}
-		});
-		btnPera.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				aggiungiProdotto(inventario[1]);
-			}
-		});
-		btnPera.setText("Pera");
-		btnPera.setBounds(282, 82, 75, 25);
-		
-		Button btnBanana = new Button(shell, SWT.NONE);
-		btnBanana.addMouseTrackListener(new MouseTrackAdapter() {
-			@Override
-			public void mouseEnter(MouseEvent e) {
-				mostraPrezzo(inventario[2]);
-			}
-		});
-		btnBanana.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				aggiungiProdotto(inventario[2]);
-			}
-		});
-		btnBanana.setText("Banana");
-		btnBanana.setBounds(363, 82, 75, 25);
-		
-		Button btnCartaIgenica = new Button(shell, SWT.NONE);
-		btnCartaIgenica.addMouseTrackListener(new MouseTrackAdapter() {
-			@Override
-			public void mouseEnter(MouseEvent e) {
-				mostraPrezzo(inventario[3]);
-			}
-		});
-		btnCartaIgenica.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				aggiungiProdotto(inventario[3]);
-			}
-		});
-		btnCartaIgenica.setText("Carta Igenica");
-		btnCartaIgenica.setBounds(201, 113, 75, 25);
-		
-		Button btnBottiglia = new Button(shell, SWT.NONE);
-		btnBottiglia.addMouseTrackListener(new MouseTrackAdapter() {
-			@Override
-			public void mouseEnter(MouseEvent e) {
-				mostraPrezzo(inventario[4]);
-			}
-		});
-		btnBottiglia.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				aggiungiProdotto(inventario[4]);
-			}
-		});
-		btnBottiglia.setText("Bottiglia");
-		btnBottiglia.setBounds(282, 113, 75, 25);
-		
-		Button btnBatteria = new Button(shell, SWT.NONE);
-		btnBatteria.addMouseTrackListener(new MouseTrackAdapter() {
-			@Override
-			public void mouseEnter(MouseEvent e) {
-				mostraPrezzo(inventario[5]);
-			}
-		});
-		btnBatteria.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				aggiungiProdotto(inventario[5]);
-			}
-		});
-		btnBatteria.setText("Batteria");
-		btnBatteria.setBounds(363, 113, 75, 25);
-		
 		Label lblNewLabel = new Label(shell, SWT.NONE);
 		lblNewLabel.setBounds(221, 26, 55, 21);
 		lblNewLabel.setText("Prezzo");
@@ -236,7 +140,7 @@ public class Supermercato {
 				vaiAllaCassa();
 			}
 		});
-		btnTotale.setBounds(221, 207, 203, 25);
+		btnTotale.setBounds(221, 236, 203, 25);
 		btnTotale.setText("Vai alla cassa");
 		
 		Label lblTotale = new Label(shell, SWT.NONE);
@@ -283,6 +187,40 @@ public class Supermercato {
 		text_scontrino.setEditable(false);
 		text_scontrino.setBounds(248, 380, 76, 21);
 		formToolkit.adapt(text_scontrino, true, true);
+		
+		ScrolledComposite scrolledComposite_1 = new ScrolledComposite(shell, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+		scrolledComposite_1.setBounds(221, 72, 213, 158);
+		formToolkit.adapt(scrolledComposite_1);
+		formToolkit.paintBordersFor(scrolledComposite_1);
+		scrolledComposite_1.setExpandHorizontal(true);
+		scrolledComposite_1.setExpandVertical(true);
+		
+		Composite composite = new Composite(scrolledComposite_1, SWT.NONE);
+		composite.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				for(int i=0; i<  inventario.length; i++){
+					Prodotto corrente = inventario[i];
+					
+					Button btnNewButton = new Button(composite, SWT.NONE);
+					btnNewButton.addSelectionListener(new SelectionAdapter() {
+						@Override
+						public void widgetSelected(SelectionEvent e) {
+							carrello.aggiungiProdotto(corrente);
+							aggiornaLista();
+						}
+					});
+					btnNewButton.setBounds(0, i*25, 209, 25);
+					formToolkit.adapt(btnNewButton, true, true);
+					btnNewButton.setText(inventario[i].getDescr());
+					scrolledComposite_1.setContent(composite);
+					scrolledComposite_1.setMinSize(composite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+					System.out.println("ciao");
+				}
+			}
+		});
+		formToolkit.adapt(composite);
+		formToolkit.paintBordersFor(composite);
 
 	}
 }
