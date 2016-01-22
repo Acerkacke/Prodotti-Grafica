@@ -1,28 +1,64 @@
 
 package Cramest.utils;
 
-
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.List;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class SalvaFile {
-	String nomeFile;
-	
-	public void salva(int numero){
-		
+	private String pathFile;
+
+	public SalvaFile(String path) {
+		pathFile = path;
 	}
-	
-	private void scriviSuFile(){
-		List<String> lines = Arrays.asList("The first line", "The second line");
-		Path file = Paths.get("the-file-name.txt");
-		try{
-			Files.write(file, lines, Charset.forName("UTF-8"));
-		}catch(Exception e){
-			System.out.println("ciao");
+
+	public String getPath() {
+		return pathFile;
+	}
+
+	public boolean salva(int numero) {
+		return scriviSuFile(numero);
+	}
+
+	public boolean salva(double numero) {
+		return scriviSuFile(numero);
+	}
+
+	public boolean salva(float numero) {
+		return scriviSuFile(numero);
+	}
+
+	public boolean salva(String valore) {
+		return scriviSuFile(valore);
+	}
+
+	private boolean scriviSuFile(int n) {
+		return scriviSuFile(String.valueOf(n));
+	}
+
+	private boolean scriviSuFile(double d) {
+		return scriviSuFile(String.valueOf(d));
+	}
+
+	private boolean scriviSuFile(float f) {
+		return scriviSuFile(String.valueOf(f));
+	}
+
+	private boolean scriviSuFile(String content) {
+		try {
+			File file = new File(pathFile);
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+			FileWriter fw = new FileWriter(file.getAbsoluteFile());
+			BufferedWriter bw = new BufferedWriter(fw);
+			bw.write(content);
+			bw.close();
+			return true;
+		} catch (IOException e) {
+			return false;
 		}
+
 	}
 }
