@@ -6,9 +6,8 @@ import Cramest.Prodotti.*;
 
 public class CaricaSalvaTest {
 	public static void main(String[] args){
-		SalvaFileProdotti sf = new SalvaFileProdotti(System.getProperty("user.dir")+"\\salvataggioProdotti.txt");
+		//SalvaFileProdotti sf = new SalvaFileProdotti(System.getProperty("user.dir")+"\\salvataggioProdotti.txt");
 		CaricaFileProdotti cf = new CaricaFileProdotti(System.getProperty("user.dir")+"\\salvataggioProdotti.txt");
-		//sf.salvaAlimentare(new Alimentare("1234","Un prodotto",4.15,new Data()));
 		ArrayList<Prodotto> prodotti = cf.caricaListaProdotti();
 		for(int i = 0;i<prodotti.size();i++){
 			System.out.println(prodotti.get(i));

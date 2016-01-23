@@ -3,7 +3,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Label;
 
 import java.util.ArrayList;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.wb.swt.SWTResourceManager;
 
@@ -67,6 +66,8 @@ public class Supermercato {
 			listaAggiornata[i] = carrello.getProdotto(i).toString();
 		}
 		list.setItems(listaAggiornata);
+		text_totale.setText(String.valueOf(Math.floor(carrello.calcolaTOT()*1000)/1000));
+		
 	}
 	
 	private void vaiAllaCassa(){
