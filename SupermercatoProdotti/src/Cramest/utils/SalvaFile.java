@@ -7,8 +7,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class SalvaFile {
-	private String pathFile;
-
+	
+	protected String pathFile;
+	final protected char separatore = 'ç';
+	
 	public SalvaFile(String path) {
 		pathFile = path;
 	}
@@ -33,19 +35,22 @@ public class SalvaFile {
 		return scriviSuFile(valore);
 	}
 
-	private boolean scriviSuFile(int n) {
+	protected boolean scriviSuFile(int n) {
 		return scriviSuFile(String.valueOf(n));
 	}
 
-	private boolean scriviSuFile(double d) {
+	protected boolean scriviSuFile(double d) {
 		return scriviSuFile(String.valueOf(d));
 	}
 
-	private boolean scriviSuFile(float f) {
+	protected boolean scriviSuFile(float f) {
 		return scriviSuFile(String.valueOf(f));
 	}
 
-	private boolean scriviSuFile(String content) {
+	protected boolean scriviSuFile(String content) {
+		CaricaFile cf = new CaricaFile(pathFile);
+		content = cf.getFile() + "\n" + content;
+		
 		try {
 			File file = new File(pathFile);
 			if (!file.exists()) {
