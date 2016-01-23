@@ -1,4 +1,4 @@
-package Cramest.Prodotti;
+package Cramest.utils;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -41,6 +41,10 @@ public class Data {
 		int mese = c.get(Calendar.MONTH) + 1;
 		int giorno = c.get(Calendar.DATE);
 		return giorno + "/" + mese + "/" + anno;
+	}
+	
+	public static Data oggi(){
+		return new Data();
 	}
 
 }

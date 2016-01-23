@@ -3,6 +3,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.wb.swt.SWTResourceManager;
 
 import Cramest.Prodotti.*;
+import Cramest.utils.Data;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Label;

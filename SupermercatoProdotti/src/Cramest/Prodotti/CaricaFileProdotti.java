@@ -2,6 +2,7 @@ package Cramest.Prodotti;
 
 import java.util.ArrayList;
 import Cramest.utils.CaricaFile;
+import Cramest.utils.Data;
 
 public class CaricaFileProdotti extends CaricaFile {
 

@@ -1,5 +1,7 @@
 package Cramest.Prodotti;
 
+import Cramest.utils.Data;
+
 public class Alimentare extends Prodotto {
 
 	Data scadenza;
