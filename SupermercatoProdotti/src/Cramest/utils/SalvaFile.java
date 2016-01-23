@@ -48,9 +48,10 @@ public class SalvaFile {
 	}
 
 	protected boolean scriviSuFile(String content) {
-		CaricaFile cf = new CaricaFile(pathFile);
-		content = cf.getFile() + "\n" + content;
-		
+		if(new File(pathFile).exists()){
+			CaricaFile cf = new CaricaFile(pathFile);
+			content = cf.getFile() + content + "\n";
+		}
 		try {
 			File file = new File(pathFile);
 			if (!file.exists()) {
@@ -64,6 +65,5 @@ public class SalvaFile {
 		} catch (IOException e) {
 			return false;
 		}
-
 	}
 }

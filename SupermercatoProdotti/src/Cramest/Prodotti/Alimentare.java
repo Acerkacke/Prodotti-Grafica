@@ -14,4 +14,9 @@ public class Alimentare extends Prodotto {
 			prezzo -= prezzo / 100 * 20;
 		}
 	}
+	
+	@Override
+	public String toString() {
+		return descr+", scade il "+scadenza+", "+prezzo+"€";
+	}
 }

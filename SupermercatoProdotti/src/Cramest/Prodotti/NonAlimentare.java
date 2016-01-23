@@ -14,4 +14,9 @@ public class NonAlimentare extends Prodotto {
 			prezzo -= (prezzo / 100) * 10;
 		}
 	}
+	
+	@Override
+	public String toString() {
+		return descr+", fatto di "+materiale+", "+prezzo+"€";
+	}
 }

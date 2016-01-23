@@ -1,11 +1,18 @@
 package Cramest.utils;
 
+import java.util.ArrayList;
+
+import Cramest.Prodotti.*;
+
 public class CaricaSalvaTest {
 	public static void main(String[] args){
-		SalvaFile sf = new SalvaFile("C:\\Users\\cremaluca\\Desktop\\salvataggio1.txt");
-		CaricaFile cf = new CaricaFile("C:\\Users\\cremaluca\\Desktop\\salvataggio1.txt");
-		sf.salva(5);
-		sf.salva(8);
-		System.out.println(cf.getFile());
+		SalvaFileProdotti sf = new SalvaFileProdotti(System.getProperty("user.dir")+"\\salvataggioProdotti.txt");
+		CaricaFileProdotti cf = new CaricaFileProdotti(System.getProperty("user.dir")+"\\salvataggioProdotti.txt");
+		//sf.salvaAlimentare(new Alimentare("1234","Un prodotto",4.15,new Data()));
+		ArrayList<Prodotto> prodotti = cf.caricaListaProdotti();
+		for(int i = 0;i<prodotti.size();i++){
+			System.out.println(prodotti.get(i));
+		}
+		System.out.println();
 	}
 }
