@@ -1,6 +1,9 @@
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.wb.swt.SWTResourceManager;
+
+import Cramest.Prodotti.*;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
@@ -19,12 +22,10 @@ public class GestioneCarello {
 	private Text textPrezzoNonAlimentare;
 	private Text textNomeNonAlimentare;
 	private Text textMateriale;
+	private static SalvaFileProdotti sfp;
 
-	/**
-	 * Launch the application.
-	 * @param args
-	 */
 	public static void main(String[] args) {
+		sfp = new SalvaFileProdotti(System.getProperty("user.dir")+"\\salvataggioProdotti.txt");
 		try {
 			GestioneCarello window = new GestioneCarello();
 			window.open();
@@ -33,9 +34,6 @@ public class GestioneCarello {
 		}
 	}
 
-	/**
-	 * Open the window.
-	 */
 	public void open() {
 		Display display = Display.getDefault();
 		createContents();
@@ -48,9 +46,6 @@ public class GestioneCarello {
 		}
 	}
 
-	/**
-	 * Create contents of the window.
-	 */
 	protected void createContents() {
 		shlAggiungiprodotti = new Shell();
 		shlAggiungiprodotti.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT));
@@ -83,18 +78,30 @@ public class GestioneCarello {
 		text_Codice = new Text(shlAggiungiprodotti, SWT.BORDER | SWT.CENTER);
 		text_Codice.setBounds(83, 123, 117, 15);
 		
+		DateTime dateTime = new DateTime(shlAggiungiprodotti, SWT.BORDER);
+		dateTime.setBounds(83, 154, 117, 15);
+		
 		Button btnAggiungiAlimentare = new Button(shlAggiungiprodotti, SWT.CENTER);
 		btnAggiungiAlimentare.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				
+				String cod = text_Codice.getText();
+				String desc = text_Nome.getText();
+				if (text_Prezzo.getText().matches(".*\\d+.*")){
+					double prezzo = Double.parseDouble(text_Prezzo.getText());
+					Data scadenza = new Data(dateTime.getDay(),dateTime.getMonth(),dateTime.getYear());
+					Alimentare ali = new Alimentare(cod,desc,prezzo,scadenza);
+					System.out.println(ali);
+					sfp.salvaAlimentare(ali);
+				}else{
+					System.out.println("IL PREZZO CHE HAI INSERITO NON E' UN NUMERO");
+				}
 			}
 		});
 		btnAggiungiAlimentare.setBounds(69, 187, 75, 25);
 		btnAggiungiAlimentare.setText("AGGIUNGI");
 		
-		DateTime dateTime = new DateTime(shlAggiungiprodotti, SWT.BORDER);
-		dateTime.setBounds(83, 154, 117, 15);
+		
 		
 		Label lblData = new Label(shlAggiungiprodotti, SWT.BORDER | SWT.CENTER);
 		lblData.setBounds(10, 154, 67, 15);
@@ -139,6 +146,20 @@ public class GestioneCarello {
 		textMateriale.setBounds(297, 154, 117, 15);
 		
 		Button btnAggiungiNonAlimentare = new Button(shlAggiungiprodotti, SWT.CENTER);
+		btnAggiungiNonAlimentare.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				String cod = textCodiceNonAlimentare.getText();
+				String desc = textNomeNonAlimentare.getText();
+				if (textPrezzoNonAlimentare.getText().matches(".*\\d+.*")){
+					double prezzo = Double.parseDouble(textPrezzoNonAlimentare.getText());
+					String materiale = textMateriale.getText();
+					sfp.salvaNonAlimentare(new NonAlimentare(cod,desc,prezzo,materiale));
+				}else{
+					System.out.println("IL PREZZO CHE HAI INSERITO NON E' UN NUMERO");
+				}
+			}
+		});
 		btnAggiungiNonAlimentare.setText("AGGIUNGI");
 		btnAggiungiNonAlimentare.setBounds(282, 187, 75, 25);
 
