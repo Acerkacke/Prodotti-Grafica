@@ -86,14 +86,15 @@ public class Supermercato {
 
 	protected void createContents() {
 		shlSupermercato = new Shell();
+		shlSupermercato.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT));
 		shlSupermercato.setMinimumSize(new Point(460, 305));
-		shlSupermercato.setSize(460, 305);
+		shlSupermercato.setSize(460, 454);
 		shlSupermercato.setText("Supermercato");
 		
-		Label lblSupermercato = new Label(shlSupermercato, SWT.CENTER);
+		Label lblSupermercato = new Label(shlSupermercato, SWT.BORDER | SWT.CENTER);
 		lblSupermercato.setFont(SWTResourceManager.getFont("Segoe UI Semibold", 13, SWT.BOLD));
 		lblSupermercato.setAlignment(SWT.CENTER);
-		lblSupermercato.setBounds(0, 0, 434, 23);
+		lblSupermercato.setBounds(0, 0, 444, 23);
 		lblSupermercato.setText("SUPERMERCATO");
 		
 		ScrolledComposite scrolledComposite = new ScrolledComposite(shlSupermercato, SWT.BORDER | SWT.V_SCROLL);
@@ -107,23 +108,23 @@ public class Supermercato {
 		scrolledComposite.setContent(list);
 		scrolledComposite.setMinSize(list.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 		
-		Label lblNewLabel = new Label(shlSupermercato, SWT.NONE);
-		lblNewLabel.setBounds(221, 26, 55, 21);
+		Label lblNewLabel = new Label(shlSupermercato, SWT.BORDER);
+		lblNewLabel.setBounds(221, 31, 55, 15);
 		lblNewLabel.setText("Prezzo");
 		
 		text_prezzo = new Text(shlSupermercato, SWT.BORDER);
 		text_prezzo.setEditable(false);
-		text_prezzo.setBounds(348, 23, 76, 21);
+		text_prezzo.setBounds(300, 29, 124, 17);
 		
-		Label lblCodice = new Label(shlSupermercato, SWT.NONE);
-		lblCodice.setBounds(221, 53, 55, 15);
+		Label lblCodice = new Label(shlSupermercato, SWT.BORDER);
+		lblCodice.setBounds(221, 52, 55, 16);
 		lblCodice.setText("Codice");
 		
 		text_codice = new Text(shlSupermercato, SWT.BORDER);
 		text_codice.setEditable(false);
-		text_codice.setBounds(348, 50, 76, 21);
+		text_codice.setBounds(300, 50, 124, 18);
 		
-		Button btnTotale = new Button(shlSupermercato, SWT.NONE);
+		Button btnTotale = new Button(shlSupermercato, SWT.FLAT);
 		btnTotale.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -133,13 +134,13 @@ public class Supermercato {
 		btnTotale.setBounds(221, 236, 203, 25);
 		btnTotale.setText("Vai alla cassa");
 		
-		Label lblTotale = new Label(shlSupermercato, SWT.NONE);
-		lblTotale.setBounds(10, 241, 55, 13);
+		Label lblTotale = new Label(shlSupermercato, SWT.BORDER);
+		lblTotale.setBounds(10, 241, 55, 15);
 		lblTotale.setText("Totale : ");
 		
 		text_totale = new Text(shlSupermercato, SWT.BORDER);
 		text_totale.setEditable(false);
-		text_totale.setBounds(71, 238, 124, 21);
+		text_totale.setBounds(71, 238, 124, 23);
 		
 		btnNo = new Button(shlSupermercato, SWT.NONE);
 		btnNo.addSelectionListener(new SelectionAdapter() {
@@ -163,8 +164,9 @@ public class Supermercato {
 		formToolkit.adapt(btnSi, true, true);
 		btnSi.setText("Si");
 		
-		Label lblHaiLaCarta = new Label(shlSupermercato, SWT.NONE);
-		lblHaiLaCarta.setBounds(179, 300, 110, 15);
+		Label lblHaiLaCarta = new Label(shlSupermercato, SWT.BORDER | SWT.CENTER);
+		lblHaiLaCarta.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT));
+		lblHaiLaCarta.setBounds(165, 300, 139, 15);
 		formToolkit.adapt(lblHaiLaCarta, true, true);
 		lblHaiLaCarta.setText("Hai la carta fedelt\u00E0?");
 		
@@ -179,6 +181,7 @@ public class Supermercato {
 		formToolkit.adapt(text_scontrino, true, true);
 		
 		ScrolledComposite scrolledComposite_1 = new ScrolledComposite(shlSupermercato, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+		scrolledComposite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_INFO_BACKGROUND));
 		scrolledComposite_1.setBounds(221, 72, 213, 158);
 		formToolkit.adapt(scrolledComposite_1);
 		formToolkit.paintBordersFor(scrolledComposite_1);
