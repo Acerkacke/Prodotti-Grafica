@@ -83,11 +83,15 @@ public class Supermercato {
 			isUscito = true;
 		}
 	}
+	
+	private void rimuoviDalCarrello(){
+		list.remove(list.getSelectionIndex());
+	}
 
 	protected void createContents() {
 		shlSupermercato = new Shell();
 		shlSupermercato.setMinimumSize(new Point(460, 305));
-		shlSupermercato.setSize(460, 305);
+		shlSupermercato.setSize(460, 310);
 		shlSupermercato.setText("Supermercato");
 		
 		Label lblSupermercato = new Label(shlSupermercato, SWT.CENTER);
@@ -101,7 +105,7 @@ public class Supermercato {
 		scrolledComposite.setExpandVertical(true);
 		scrolledComposite.setExpandHorizontal(true);
 		scrolledComposite.setTouchEnabled(true);
-		scrolledComposite.setBounds(0, 29, 195, 203);
+		scrolledComposite.setBounds(0, 29, 195, 170);
 		
 		list = new List(scrolledComposite, SWT.BORDER);
 		scrolledComposite.setContent(list);
@@ -186,6 +190,7 @@ public class Supermercato {
 		scrolledComposite_1.setExpandVertical(true);
 		
 		Composite composite = new Composite(scrolledComposite_1, SWT.NONE);
+		scrolledComposite_1.setContent(composite);
 		composite.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
@@ -210,6 +215,17 @@ public class Supermercato {
 		});
 		formToolkit.adapt(composite);
 		formToolkit.paintBordersFor(composite);
+		
+		Button btnEliminaSelezionato = new Button(shlSupermercato, SWT.NONE);
+		btnEliminaSelezionato.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				rimuoviDalCarrello();
+			}
+		});
+		btnEliminaSelezionato.setBounds(0, 205, 195, 25);
+		formToolkit.adapt(btnEliminaSelezionato, true, true);
+		btnEliminaSelezionato.setText("Elimina selezionato");
 
 	}
 }
