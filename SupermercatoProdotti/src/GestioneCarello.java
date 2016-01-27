@@ -59,25 +59,25 @@ public class GestioneCarello {
 		lblAggiungiProdotto.setText("AGGIUNGI PRODOTTO");
 		
 		Label lblNomeProdotto = new Label(shlAggiungiprodotti, SWT.BORDER | SWT.CENTER);
-		lblNomeProdotto.setBounds(10, 59, 67, 15);
+		lblNomeProdotto.setBounds(10, 48, 67, 15);
 		lblNomeProdotto.setText("Nome:");
 		
 		Label lblPrezzo = new Label(shlAggiungiprodotti, SWT.BORDER | SWT.CENTER);
-		lblPrezzo.setBounds(10, 90, 67, 15);
+		lblPrezzo.setBounds(10, 81, 67, 15);
 		lblPrezzo.setText("Prezzo:");
 		
 		Label lblCodice = new Label(shlAggiungiprodotti, SWT.BORDER | SWT.CENTER);
-		lblCodice.setBounds(10, 123, 67, 15);
+		lblCodice.setBounds(10, 116, 67, 15);
 		lblCodice.setText("Codice:");
 		
 		text_Nome = new Text(shlAggiungiprodotti, SWT.BORDER | SWT.CENTER);
-		text_Nome.setBounds(83, 59, 117, 15);
+		text_Nome.setBounds(83, 48, 117, 25);
 		
 		text_Prezzo = new Text(shlAggiungiprodotti, SWT.BORDER | SWT.CENTER);
-		text_Prezzo.setBounds(83, 88, 117, 17);
+		text_Prezzo.setBounds(83, 79, 117, 25);
 		
 		text_Codice = new Text(shlAggiungiprodotti, SWT.BORDER | SWT.CENTER);
-		text_Codice.setBounds(83, 123, 117, 15);
+		text_Codice.setBounds(83, 114, 117, 25);
 		
 		DateTime dateTime = new DateTime(shlAggiungiprodotti, SWT.BORDER);
 		dateTime.setBounds(83, 154, 117, 15);
@@ -109,42 +109,42 @@ public class GestioneCarello {
 		lblData.setText("Data:");
 		
 		Label lblAlimentare = new Label(shlAggiungiprodotti, SWT.BORDER);
-		lblAlimentare.setBounds(69, 38, 75, 15);
+		lblAlimentare.setBounds(69, 27, 75, 15);
 		lblAlimentare.setText("ALIMENTARE:");
 		
 		Label lblNonAlimentare = new Label(shlAggiungiprodotti, SWT.BORDER);
-		lblNonAlimentare.setBounds(282, 38, 104, 15);
+		lblNonAlimentare.setBounds(282, 27, 104, 15);
 		lblNonAlimentare.setText("NON ALIMENTARE:");
 		
 		Label lblNomeNonAlimentare = new Label(shlAggiungiprodotti, SWT.BORDER);
 		lblNomeNonAlimentare.setAlignment(SWT.CENTER);
-		lblNomeNonAlimentare.setBounds(236, 59, 55, 15);
+		lblNomeNonAlimentare.setBounds(236, 50, 55, 15);
 		lblNomeNonAlimentare.setText("Nome:");
 		
 		Label lblPrezzoNonAlimentare = new Label(shlAggiungiprodotti, SWT.BORDER);
 		lblPrezzoNonAlimentare.setAlignment(SWT.CENTER);
-		lblPrezzoNonAlimentare.setBounds(236, 90, 55, 15);
+		lblPrezzoNonAlimentare.setBounds(236, 85, 55, 15);
 		lblPrezzoNonAlimentare.setText("Prezzo:");
 		
 		Label lblCodiceNonAlimentare = new Label(shlAggiungiprodotti, SWT.BORDER);
-		lblCodiceNonAlimentare.setBounds(236, 124, 55, 15);
+		lblCodiceNonAlimentare.setBounds(236, 116, 55, 15);
 		lblCodiceNonAlimentare.setText("Codice:");
 		
 		Label lblMateriale = new Label(shlAggiungiprodotti, SWT.BORDER);
-		lblMateriale.setBounds(236, 154, 55, 15);
+		lblMateriale.setBounds(236, 147, 55, 15);
 		lblMateriale.setText("Materiale:");
 		
 		textCodiceNonAlimentare = new Text(shlAggiungiprodotti, SWT.BORDER | SWT.CENTER);
-		textCodiceNonAlimentare.setBounds(297, 123, 117, 15);
+		textCodiceNonAlimentare.setBounds(297, 114, 117, 25);
 		
 		textPrezzoNonAlimentare = new Text(shlAggiungiprodotti, SWT.BORDER | SWT.CENTER);
-		textPrezzoNonAlimentare.setBounds(297, 88, 117, 17);
+		textPrezzoNonAlimentare.setBounds(297, 83, 117, 25);
 		
 		textNomeNonAlimentare = new Text(shlAggiungiprodotti, SWT.BORDER | SWT.CENTER);
-		textNomeNonAlimentare.setBounds(297, 59, 117, 15);
+		textNomeNonAlimentare.setBounds(297, 52, 117, 25);
 		
 		textMateriale = new Text(shlAggiungiprodotti, SWT.BORDER | SWT.CENTER);
-		textMateriale.setBounds(297, 154, 117, 15);
+		textMateriale.setBounds(297, 145, 117, 25);
 		
 		Button btnAggiungiNonAlimentare = new Button(shlAggiungiprodotti, SWT.CENTER);
 		btnAggiungiNonAlimentare.addSelectionListener(new SelectionAdapter() {
