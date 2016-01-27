@@ -88,7 +88,7 @@ public class Supermercato {
 		shlSupermercato = new Shell();
 		shlSupermercato.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT));
 		shlSupermercato.setMinimumSize(new Point(460, 305));
-		shlSupermercato.setSize(460, 454);
+		shlSupermercato.setSize(460, 305);
 		shlSupermercato.setText("Supermercato");
 		
 		Label lblSupermercato = new Label(shlSupermercato, SWT.BORDER | SWT.CENTER);
