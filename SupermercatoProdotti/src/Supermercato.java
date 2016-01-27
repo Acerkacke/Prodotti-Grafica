@@ -19,6 +19,9 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.MouseTrackAdapter;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.widgets.Table;
 
 
 public class Supermercato {
@@ -35,6 +38,7 @@ public class Supermercato {
 	private final FormToolkit formToolkit = new FormToolkit(Display.getDefault());
 	private Text text_scontrino;
 	private boolean isUscito = false;
+	private Table table;
 	
 	public static void main(String[] args) {
 		try {
@@ -85,15 +89,17 @@ public class Supermercato {
 	}
 	
 	private void rimuoviDalCarrello(){
-		list.remove(list.getSelectionIndex());
+		System.out.println(list.getSelectionIndex());
 		carrello.eliminaProdotto(list.getSelectionIndex());
+		list.remove(list.getSelectionIndex());
+		aggiornaLista();
 	}
 
 	protected void createContents() {
 		shlSupermercato = new Shell();
 		shlSupermercato.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT));
 		shlSupermercato.setMinimumSize(new Point(460, 305));
-		shlSupermercato.setSize(460, 310);
+		shlSupermercato.setSize(460, 305);
 		shlSupermercato.setText("Supermercato");
 		
 		Label lblSupermercato = new Label(shlSupermercato, SWT.BORDER | SWT.CENTER);
@@ -109,9 +115,15 @@ public class Supermercato {
 		scrolledComposite.setTouchEnabled(true);
 		scrolledComposite.setBounds(0, 29, 195, 170);
 		
-		list = new List(scrolledComposite, SWT.BORDER);
-		scrolledComposite.setContent(list);
-		scrolledComposite.setMinSize(list.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		Composite composite_1 = new Composite(scrolledComposite, SWT.NONE);
+		formToolkit.adapt(composite_1);
+		formToolkit.paintBordersFor(composite_1);
+		
+		list = new List(composite_1, SWT.BORDER);
+		list.setLocation(0, 0);
+		list.setSize(185, 166);
+		scrolledComposite.setContent(composite_1);
+		scrolledComposite.setMinSize(composite_1.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 		
 		Label lblNewLabel = new Label(shlSupermercato, SWT.BORDER);
 		lblNewLabel.setBounds(221, 31, 55, 15);
@@ -207,6 +219,13 @@ public class Supermercato {
 						public void widgetSelected(SelectionEvent e) {
 							carrello.aggiungiProdotto(corrente);
 							aggiornaLista();
+						}
+					});
+					btnNewButton.addMouseTrackListener(new MouseTrackAdapter() {
+						@Override
+						public void mouseHover(MouseEvent e) {
+							text_prezzo.setText(corrente.getDescr());;
+							text_codice.setText(corrente.getCod());;
 						}
 					});
 					btnNewButton.setBounds(0, i*25, 209, 25);
