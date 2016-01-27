@@ -86,6 +86,7 @@ public class Supermercato {
 	
 	private void rimuoviDalCarrello(){
 		list.remove(list.getSelectionIndex());
+		carrello.eliminaProdotto(list.getSelectionIndex());
 	}
 
 	protected void createContents() {
