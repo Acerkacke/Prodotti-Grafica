@@ -1,5 +1,6 @@
 package Cramest.Prodotti;
 
+import Cramest.utils.Data;
 import Cramest.utils.SalvaFile;
 
 public class SalvaFileProdotti extends SalvaFile{
