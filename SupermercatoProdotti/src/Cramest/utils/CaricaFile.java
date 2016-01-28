@@ -52,7 +52,7 @@ public class CaricaFile {
 
 			return righe;
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("NON ESISTE QUEL FILE");
 			return null;
 		}
 	}

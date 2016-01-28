@@ -14,7 +14,7 @@ public class ClientMessaggi {
 		System.out.println("--CLIENT--");
 		try {
 			try {
-				sock = new Socket("127.0.0.1",7777);
+				sock = new Socket("172.16.6.20",7777);
 				System.out.println("--CONNESSO--");
 				im = new inputMessaggi(sock);
 				im.addMsgListener(new MsgListener() {

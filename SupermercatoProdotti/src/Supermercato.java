@@ -38,25 +38,36 @@ public class Supermercato {
 	private final FormToolkit formToolkit = new FormToolkit(Display.getDefault());
 	private Text text_scontrino;
 	private boolean isUscito = false;
-	private Table table;
+	private static SalvaFileProdotti sfp;
 	
 	public static void main(String[] args) {
 		try {
 			CaricaFileProdotti cf = new CaricaFileProdotti(System.getProperty("user.dir")+"\\salvataggioProdotti.txt");
-			carrello = new ListaSpesa();
 			inventario = cf.caricaListaProdotti();
+			caricaCarrello();
 			Supermercato window = new Supermercato();
 			window.open();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
+	
+	public static void caricaCarrello(){
+		carrello = new ListaSpesa();
+		try{
+		CaricaFileProdotti cf = new CaricaFileProdotti(System.getProperty("user.dir")+"\\salvataggioCarrello.txt");
+		carrello = new ListaSpesa(cf.caricaListaProdotti());
+		}catch(Exception e){
+			System.out.println("Non esiste il file da caricare!");
+		}
+		sfp = new SalvaFileProdotti(System.getProperty("user.dir")+"\\salvataggioCarrello.txt");
+	}
 	public void open() {
 		Display display = Display.getDefault();
 		createContents();
 		shlSupermercato.open();
 		shlSupermercato.layout();
+		aggiornaLista();
 		while (!shlSupermercato.isDisposed()) {
 			if (!display.readAndDispatch()) {
 				display.sleep();
@@ -99,10 +110,11 @@ public class Supermercato {
 		shlSupermercato = new Shell();
 		shlSupermercato.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT));
 		shlSupermercato.setMinimumSize(new Point(460, 305));
-		shlSupermercato.setSize(460, 305);
+		shlSupermercato.setSize(460, 302);
 		shlSupermercato.setText("Supermercato");
 		
 		Label lblSupermercato = new Label(shlSupermercato, SWT.BORDER | SWT.CENTER);
+		lblSupermercato.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT));
 		lblSupermercato.setFont(SWTResourceManager.getFont("Segoe UI Semibold", 13, SWT.BOLD));
 		lblSupermercato.setAlignment(SWT.CENTER);
 		lblSupermercato.setBounds(0, 0, 444, 23);
@@ -113,31 +125,36 @@ public class Supermercato {
 		scrolledComposite.setExpandVertical(true);
 		scrolledComposite.setExpandHorizontal(true);
 		scrolledComposite.setTouchEnabled(true);
-		scrolledComposite.setBounds(0, 29, 195, 170);
+		scrolledComposite.setBounds(0, 29, 195, 148);
 		
 		Composite composite_1 = new Composite(scrolledComposite, SWT.NONE);
 		formToolkit.adapt(composite_1);
 		formToolkit.paintBordersFor(composite_1);
 		
 		list = new List(composite_1, SWT.BORDER);
+		list.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT));
 		list.setLocation(0, 0);
 		list.setSize(185, 166);
 		scrolledComposite.setContent(composite_1);
 		scrolledComposite.setMinSize(composite_1.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 		
 		Label lblNewLabel = new Label(shlSupermercato, SWT.BORDER);
+		lblNewLabel.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT));
 		lblNewLabel.setBounds(221, 31, 55, 15);
 		lblNewLabel.setText("Prezzo");
 		
 		text_prezzo = new Text(shlSupermercato, SWT.BORDER);
+		text_prezzo.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT));
 		text_prezzo.setEditable(false);
 		text_prezzo.setBounds(300, 29, 124, 17);
 		
 		Label lblCodice = new Label(shlSupermercato, SWT.BORDER);
+		lblCodice.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT));
 		lblCodice.setBounds(221, 52, 55, 16);
 		lblCodice.setText("Codice");
 		
 		text_codice = new Text(shlSupermercato, SWT.BORDER);
+		text_codice.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT));
 		text_codice.setEditable(false);
 		text_codice.setBounds(300, 50, 124, 18);
 		
@@ -152,10 +169,12 @@ public class Supermercato {
 		btnTotale.setText("Vai alla cassa");
 		
 		Label lblTotale = new Label(shlSupermercato, SWT.BORDER);
+		lblTotale.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT));
 		lblTotale.setBounds(10, 241, 55, 15);
 		lblTotale.setText("Totale : ");
 		
 		text_totale = new Text(shlSupermercato, SWT.BORDER);
+		text_totale.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT));
 		text_totale.setEditable(false);
 		text_totale.setBounds(71, 238, 124, 23);
 		
@@ -206,6 +225,7 @@ public class Supermercato {
 		scrolledComposite_1.setExpandVertical(true);
 		
 		Composite composite = new Composite(scrolledComposite_1, SWT.NONE);
+		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT));
 		scrolledComposite_1.setContent(composite);
 		composite.addFocusListener(new FocusAdapter() {
 			@Override
@@ -246,9 +266,20 @@ public class Supermercato {
 				rimuoviDalCarrello();
 			}
 		});
-		btnEliminaSelezionato.setBounds(0, 205, 195, 25);
+		btnEliminaSelezionato.setBounds(0, 183, 195, 25);
 		formToolkit.adapt(btnEliminaSelezionato, true, true);
 		btnEliminaSelezionato.setText("Elimina selezionato");
+		
+		Button btnSalva = new Button(shlSupermercato, SWT.NONE);
+		btnSalva.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				sfp.salvaListaSpesa(carrello);
+			}
+		});
+		btnSalva.setBounds(0, 210, 195, 25);
+		formToolkit.adapt(btnSalva, true, true);
+		btnSalva.setText("Salva ");
 
 	}
 }

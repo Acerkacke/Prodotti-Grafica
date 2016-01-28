@@ -2,6 +2,7 @@
 package Cramest.Prodotti;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ListaSpesa {
 
@@ -9,6 +10,12 @@ public class ListaSpesa {
 	
 	public ListaSpesa(){
 		carrello = new ArrayList<Prodotto>();
+	}
+	public ListaSpesa(Prodotto[] prodotti){
+		carrello = new ArrayList<Prodotto>(Arrays.asList(prodotti));
+	}
+	public ListaSpesa(ArrayList<Prodotto> prodotti){
+		carrello = new ArrayList<Prodotto>(prodotti);
 	}
 	
 	public void aggiungiProdotto(Prodotto prodotto){
