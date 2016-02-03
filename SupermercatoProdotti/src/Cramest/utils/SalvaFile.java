@@ -9,10 +9,22 @@ import java.io.IOException;
 public class SalvaFile {
 	
 	protected String pathFile;
-	final protected char separatore = 'ç';
+	final protected char separatore = '_';
 	
 	public SalvaFile(String path) {
 		pathFile = path;
+	}
+	
+	public boolean CancellaFile(){
+		File file = new File(pathFile);
+		if (!file.exists()) {
+			return false;
+		}
+		if(file.delete()){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	public String getPath() {

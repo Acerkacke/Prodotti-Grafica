@@ -1,11 +1,2 @@
-0001çUna Melaç0.15ç1/2/2016
-0002çUna Peraç0.2ç3/2/2016
-0003çUna Bananaç0.2ç4/2/2016
-0004çUna Aranciaç0.15ç1/2/2016
-1001çCarta igenicaç1.0çCarta
-0009çUn Limoneç0.25ç31/12/2015
-asdfecdgfçsdhç4.0ç27/12/2015
-0003çUna Bananaç0.2
-0002çUna Peraç0.2
-0003çUna Bananaç0.2
-0003çUna Bananaç0.2
+0225_Nardi_0.15_30/12/2015
+0123_Crema_0.3_Ferro

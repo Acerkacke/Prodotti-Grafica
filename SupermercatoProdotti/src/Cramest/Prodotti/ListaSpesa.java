@@ -27,6 +27,9 @@ public class ListaSpesa {
 	public void eliminaProdotto(int index){
 		carrello.remove(index);
 	}
+	public void svuota(){
+		carrello.clear();
+	}
 	
 	public double calcolaTOT(){
 		double totale = 0;

@@ -10,8 +10,10 @@ public class inputMessaggi {
 
 	private DataInputStream din;
 	private Socket s;
-	protected EventListenerList listenerList = new EventListenerList();
-	private int numeroListener;
+	protected EventListenerList msglistenerList = new EventListenerList();
+	protected EventListenerList dellistenerList = new EventListenerList();
+	private int msgnumeroListener;
+	private int delnumeroListener;
 	private String lastMessage = "";
 	private boolean eAperto;
 
@@ -36,7 +38,7 @@ public class inputMessaggi {
 					eAperto = false;
 				}
 				while (eAperto) {
-					if (numeroListener >= 1) {
+					if (msgnumeroListener >= 1) {
 						try {
 							lastMessage = din.readUTF();
 							if (lastMessage.equals("chiudi")) {
@@ -44,7 +46,8 @@ public class inputMessaggi {
 							}
 							eArrivatoMessaggio(new MsgEvent(this));
 						} catch (IOException e) {
-							e.printStackTrace();
+							e.printStackTrace(); //IL CLIENT SI E' SCOLLEGATO
+							siEDisconnessoQualcuno(new DisconnectedEvent(this));
 						}
 					}
 				}
@@ -73,14 +76,28 @@ public class inputMessaggi {
 			e.printStackTrace();
 		}
 	}
+	
+	public void addDisconnessoListener(DisconnectedEventListener del){
+		dellistenerList.add(DisconnectedEventListener.class, del);
+		msgnumeroListener++;
+	}
+	
+	public void siEDisconnessoQualcuno(DisconnectedEvent de){
+		Object[] listeners = dellistenerList.getListenerList();
+		for (int i = 0; i < listeners.length; i++) {
+			if (listeners[i] == MsgListener.class) {
+				((DisconnectedEventListener) listeners[i + 1]).ClientDisconnesso(de);
+			}
+		}
+	}
 
 	public void addMsgListener(MsgListener msglisten) {
-		listenerList.add(MsgListener.class, msglisten);
-		numeroListener++;
+		msglistenerList.add(MsgListener.class, msglisten);
+		msgnumeroListener++;
 	}
 
 	private void eArrivatoMessaggio(MsgEvent evt) {
-		Object[] listeners = listenerList.getListenerList();
+		Object[] listeners = msglistenerList.getListenerList();
 		for (int i = 0; i < listeners.length; i++) {
 			if (listeners[i] == MsgListener.class) {
 				((MsgListener) listeners[i + 1]).MioEventoESuccesso(evt);

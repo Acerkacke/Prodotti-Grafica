@@ -87,6 +87,12 @@ public class ServerMessaggi {
 					mandaMessaggio(newIM.getMessaggio());
 				}
 			});
+			newIM.addDisconnessoListener(new DisconnectedEventListener(){
+				@Override
+				public void ClientDisconnesso(DisconnectedEvent de){
+					
+				}
+			});
 			ims.add(newIM);
 			oms.add(newOM);
 		} catch (Exception e) {
