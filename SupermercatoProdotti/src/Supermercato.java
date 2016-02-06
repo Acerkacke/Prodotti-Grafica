@@ -1,8 +1,10 @@
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Label;
 
 import java.util.ArrayList;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.wb.swt.SWTResourceManager;
 
@@ -16,9 +18,12 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.events.MouseTrackAdapter;
 import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 
 public class Supermercato {
 
@@ -37,16 +42,15 @@ public class Supermercato {
 	private static SalvaFileProdotti sfp;
 	private static ScrolledComposite scrolledComposite_dx;
 	private static Composite composite_dx;
-
+	private static ArrayList<Button> bottoni;
+	private static Composite compositeCestino;
+	
 	public static void main(String[] args) {
+		bottoni = new ArrayList<Button>();
 		try {
-			// prendiamo la lista dei prodotti
-			CaricaFileProdotti cf = new CaricaFileProdotti(
-					System.getProperty("user.dir") + "\\salvataggioProdotti.txt");
-			// e mettiamola nell'inventario
-			inventario = cf.caricaListaProdotti();
+			caricaNegozio(System.getProperty("user.dir") + "\\salvataggioProdotti.txt");
 			// carichiamo il carrello precedente se esiste
-			caricaCarrello();
+			caricaCarrello(System.getProperty("user.dir") + "\\salvataggioCarrello.txt");
 			Supermercato window = new Supermercato();
 			window.open();
 		} catch (Exception e) {
@@ -55,13 +59,19 @@ public class Supermercato {
 		}
 	}
 
-	public static void caricaCarrello() {
+	public static void caricaNegozio(String path) {
+		// prendiamo la lista dei prodotti
+		CaricaFileProdotti cf = new CaricaFileProdotti(path);
+		// e mettiamola nell'inventario
+		inventario = cf.caricaListaProdotti();
+	}
+
+	public static void caricaCarrello(String path) {
 		// creiamo il carrello
 		carrello = new ListaSpesa();
 		try {
 			// se esiste il file prendiamo i prodotti al suo interno
-			CaricaFileProdotti cf = new CaricaFileProdotti(
-					System.getProperty("user.dir") + "\\salvataggioCarrello.txt");
+			CaricaFileProdotti cf = new CaricaFileProdotti(path);
 			// e mettiamoli nel carrello
 			carrello = new ListaSpesa(cf.caricaListaProdotti());
 		} catch (Exception e) {
@@ -69,7 +79,7 @@ public class Supermercato {
 			System.out.println("Non esiste il file da caricare!");
 		}
 		// impostiamo la directory del salvataggio
-		sfp = new SalvaFileProdotti(System.getProperty("user.dir") + "\\salvataggioCarrello.txt");
+		sfp = new SalvaFileProdotti(path);
 	}
 
 	public void open() {
@@ -90,11 +100,18 @@ public class Supermercato {
 	}
 
 	public void creaBottoni() {
+		// svuotiamo se ce ne sono già
+		for (int i = 0; i < bottoni.size(); i++) {
+			//bottoni.get(i).dispose();
+			bottoni.get(i).setEnabled(false);
+			bottoni.get(i).setParent(compositeCestino);
+		}
 		// per ogni prodotto nell'inventario
 		for (int i = 0; i < inventario.size(); i++) {
 			Prodotto corrente = inventario.get(i);
 			// crea il bottone
 			Button btnNewButton = new Button(composite_dx, SWT.NONE);
+			bottoni.add(btnNewButton);
 			btnNewButton.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
@@ -108,22 +125,21 @@ public class Supermercato {
 			btnNewButton.addMouseTrackListener(new MouseTrackAdapter() {
 				@Override
 				public void mouseHover(MouseEvent e) {
-					//quando il mouse e' sopra il bottone metti la descrizione
+					// quando il mouse e' sopra il bottone metti la descrizione
 					text_prezzo.setText(corrente.getDescr());
-
 					text_codice.setText(corrente.getCod());
-
 				}
 			});
 			btnNewButton.setBounds(0, i * 25, 209, 25);
 			formToolkit.adapt(btnNewButton, true, true);
 			btnNewButton.setText(inventario.get(i).getDescr());
-			scrolledComposite_dx.setContent(composite_dx);
-			scrolledComposite_dx.setMinSize(composite_dx.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+			
 		}
+		composite_dx.setBounds(new Rectangle(0,0,209,bottoni.size()*25));
 	}
+
 	/**
-	 * 	Ridisegna la lista in base al carrello
+	 * Ridisegna la lista in base al carrello
 	 */
 	private void aggiornaLista() {
 		String[] listaAggiornata = new String[carrello.size()];
@@ -134,20 +150,22 @@ public class Supermercato {
 		text_totale.setText(String.valueOf(Math.floor(carrello.calcolaTOT() * 1000) / 1000));
 
 	}
+
 	/**
 	 * Finisci il programma e paga
 	 */
 	private void vaiAllaCassa() {
-		if(carrello.count() > 0){
+		if (carrello.count() > 0) {
 			shlSupermercato.setSize(shlSupermercato.getSize().x, 400);
-		}else{
+		} else {
 			System.out.println("Non hai niente nel carrello!");
 		}
 	}
+
 	/**
 	 * 
 	 * @param haTessera
-	 * 		  Se ha la tessera fai lo sconto
+	 *            Se ha la tessera fai lo sconto
 	 */
 
 	private void paga(boolean haTessera) {
@@ -160,6 +178,7 @@ public class Supermercato {
 			isUscito = true;
 		}
 	}
+
 	/**
 	 * Cancella il file e ricrealo con le nuove cose
 	 */
@@ -167,17 +186,18 @@ public class Supermercato {
 		sfp.CancellaFile();
 		sfp.salvaListaSpesa(carrello);
 	}
+
 	/**
-	 * 	Rimuove il prodotto selezionato sulla lista dal carrello
+	 * Rimuove il prodotto selezionato sulla lista dal carrello
 	 */
 	private void rimuoviDalCarrello() {
-		if(list.getSelectionIndex() >= 0  && list.getSelectionIndex() < carrello.count()){
-		System.out.println(list.getSelectionIndex());
-		carrello.eliminaProdotto(list.getSelectionIndex());
-		list.remove(list.getSelectionIndex());
-		aggiornaLista();
-		salva();
-		}else{
+		if (list.getSelectionIndex() >= 0 && list.getSelectionIndex() < carrello.count()) {
+			System.out.println(list.getSelectionIndex());
+			carrello.eliminaProdotto(list.getSelectionIndex());
+			list.remove(list.getSelectionIndex());
+			aggiornaLista();
+			salva();
+		} else {
 			System.out.println("Non hai selezionato un ca**o");
 		}
 	}
@@ -186,7 +206,7 @@ public class Supermercato {
 		shlSupermercato = new Shell();
 		shlSupermercato.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT));
 		shlSupermercato.setMinimumSize(new Point(460, 305));
-		shlSupermercato.setSize(460, 302);
+		shlSupermercato.setSize(460, 330);
 		shlSupermercato.setText("Supermercato");
 
 		Label lblSupermercato = new Label(shlSupermercato, SWT.BORDER | SWT.CENTER);
@@ -293,18 +313,19 @@ public class Supermercato {
 		formToolkit.adapt(text_scontrino, true, true);
 
 		scrolledComposite_dx = new ScrolledComposite(shlSupermercato, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+		scrolledComposite_dx.setExpandHorizontal(true);
 		scrolledComposite_dx.setBackground(SWTResourceManager.getColor(SWT.COLOR_INFO_BACKGROUND));
-		scrolledComposite_dx.setBounds(221, 72, 213, 158);
+		scrolledComposite_dx.setBounds(221, 74, 213, 156);
 		formToolkit.adapt(scrolledComposite_dx);
 		formToolkit.paintBordersFor(scrolledComposite_dx);
-		scrolledComposite_dx.setExpandHorizontal(true);
 		scrolledComposite_dx.setExpandVertical(true);
-
-		composite_dx = new Composite(scrolledComposite_dx, SWT.NONE);
+		composite_dx = new Composite(scrolledComposite_dx, SWT.V_SCROLL);
 		composite_dx.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT));
 		scrolledComposite_dx.setContent(composite_dx);
 		formToolkit.adapt(composite_dx);
 		formToolkit.paintBordersFor(composite_dx);
+		scrolledComposite_dx.setContent(composite_dx);
+		scrolledComposite_dx.setMinSize(composite_dx.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
 		Button btnEliminaSelezionato = new Button(shlSupermercato, SWT.NONE);
 		btnEliminaSelezionato.addSelectionListener(new SelectionAdapter() {
@@ -329,6 +350,37 @@ public class Supermercato {
 		buttonEliminaTutto.setText("Svuota lista");
 		buttonEliminaTutto.setBounds(10, 210, 185, 25);
 		formToolkit.adapt(buttonEliminaTutto, true, true);
+
+		Menu menu = new Menu(shlSupermercato, SWT.BAR);
+		shlSupermercato.setMenuBar(menu);
+
+		MenuItem mntmFile = new MenuItem(menu, SWT.CASCADE);
+		mntmFile.setText("File");
+
+		Menu menu_1 = new Menu(mntmFile);
+		mntmFile.setMenu(menu_1);
+
+		MenuItem mntmApriLaTua = new MenuItem(menu_1, SWT.NONE);
+		mntmApriLaTua.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				FileDialog fileDialog = new FileDialog(shlSupermercato);
+				fileDialog.setFilterExtensions(new String[] { "*.txt", "*.csv", "*.*" }); // opzionale
+				String fileScelto = fileDialog.open();
+
+				if (fileScelto != null) {
+					caricaNegozio(fileScelto);
+					creaBottoni();
+				}
+			}
+		});
+		mntmApriLaTua.setText("Apri la tua lista spesa");
+		
+		compositeCestino = new Composite(shlSupermercato, SWT.NONE);
+		compositeCestino.setEnabled(false);
+		compositeCestino.setBounds(0, 0, 0, 64);
+		formToolkit.adapt(compositeCestino);
+		formToolkit.paintBordersFor(compositeCestino);
 
 	}
 }
